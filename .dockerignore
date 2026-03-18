@@ -1,0 +1,37 @@
+.git
+**/.venv
+**/__pycache__
+.vscode
+*.py[cod]
+.aws/
+
+# Python junk
+.venv/
+__pycache__/
+*.pyc
+
+# --- Heavy Folders (Don't copy these!) ---
+venv/
+.git/
+.pytest_cache/
+
+# --- Local Configs ---
+.gitignore
+.dockerignore
+README.md
+
+# --- Temporary Security Files ---
+safety-report.*
+
+# Infrastructure (Terraform & AWS)
+infrastruckture/
+.terraform/
+terraform.tfstate*
+aws/
+awscliv2.zip
+
+# K8s manifests (Your image doesn't need its own YAMLs)
+k8s-manifests/
+
+# Documentation
+*.md

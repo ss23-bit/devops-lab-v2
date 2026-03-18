@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Docker
+.docker/
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Security & Reports ---
+# Ignore safety reports if you generate them
+safety-report.*
+.safety-policy.yml
+
+# --- Testing ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# AWS CLI Installation files
+aws/
+.aws/
+awscliv2.zip
+
+# Terraform binaries and state
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+
+# Local Binaries
+kubectl
+minikube-linux-amd64
