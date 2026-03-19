@@ -21,3 +21,21 @@ services:
       - "80:80"
     depends_on:
       - app
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus_db
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:etc/prometheus # this is Bind Mount (Configuration), if need Named Value (Database) add ./prometheus_db:prometheus
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana_ui
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
