@@ -2,9 +2,10 @@ from flask import Flask, jsonify, request, Response
 import redis
 import os
 import socket
+import time
 
 # We import the tools needed to create metrics
-from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 
 app = Flask(__name__)
 
@@ -21,8 +22,17 @@ REQUEST_COUNT = Counter(
     ['method', 'endpoint']
 )
 
+# Define the Histogram metric
+REQUEST_LATENCY = Histogram(
+    'flask_app_request_latency_seconds',
+    'Time spent processing a request',
+    ['method', 'endpoint']
+)
+
 @app.route('/')
 def home():
+    # Start the stopwatch
+    start_time = time.time()
     # 2. RECORD THE METRIC:
     # Every time someone visits '/', we increase the counter by 1.
     REQUEST_COUNT.labels(method=request.method, endpoint='/').inc()
@@ -31,6 +41,9 @@ def home():
         hits = r.incr('hit_counter')
     except redis.RedisError:
         hits = "Redis not connected"
+    # Stop the stopwatch and record the exact latency
+    latency = time.time() - start_time
+    REQUEST_LATENCY.labels(method=request.method, endpoint='/').observe(latency) # Pick it into a time Bucket
 
     return jsonify({
         "message": "Welcome to DevOps Lab v2! Nginx is routing this traffic.",
