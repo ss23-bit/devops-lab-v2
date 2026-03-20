@@ -28,7 +28,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:etc/prometheus # this is Bind Mount (Configuration), if need Named Value (Database) add ./prometheus_db:prometheus
+      - ./prometheus:/etc/prometheus # this is Bind Mount (Configuration), if need Named Value (Database) add ./prometheus_db:prometheus
     depends_on:
       - app
 
