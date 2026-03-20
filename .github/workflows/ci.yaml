@@ -15,9 +15,26 @@ jobs:
     # Go to my GitHub repository, grab all my files, and copy them onto this runner
     - name: Checkout Repository
       uses: actions/checkout@v6
-
+        
     - name: Test Build - Flask App
       run: docker build -t test-flask-app ./app
 
     - name: Test Build - Nginx Proxy
       run: docker build -t test-nginx ./nginx
+
+    - name: log in to docker hub
+      uses: docker/login-action@v4
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push flask app
+      uses: docker/build-push-action@v5
+      with:
+        context: ./app
+        push: true
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:${{ github.sha }}
+
+    
