@@ -32,7 +32,8 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: ./app
-        push: true
+        # Only push if this is NOT a pull request, To test this during PR first
+        push: ${{ github.event_name != 'pull_request' }}
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:latest
           ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:${{ github.sha }}
