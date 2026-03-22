@@ -22,6 +22,10 @@ jobs:
     - name: Test Build - Nginx Proxy
       run: docker build -t test-nginx ./nginx
 
+    - name: Calculate short SHA
+      id: vars
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
     - name: log in to docker hub
       uses: docker/login-action@v4
       with:
@@ -36,6 +40,6 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:${{ github.sha }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab-v2-app:${{ steps.vars.outputs.sha_short }}
 
     
