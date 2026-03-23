@@ -6,7 +6,7 @@ services:
     container_name: redis_db
   
   app:
-    build: ss23lw/devops-lab-v2-app:1c836204900eb119fa858fb7cc2ac1bbfac497b9
+    build: ss23lw/devops-lab-v2-app:6175a3c
     container_name: flask_app
     environment:
       - REDIS_HOST=redis

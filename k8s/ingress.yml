@@ -1,0 +1,23 @@
+# The Match Rule: (Host + Path)
+# The Action: (Rewrite)
+# The Destination: (Service + Port)
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lab-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: devops-lab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: flask-service   # Match the internal Service
+            port:
+              number: 5000
+  
