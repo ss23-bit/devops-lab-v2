@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask-app
+        image: ss23lw/devops-lab-v2-app:6175a3c
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "250m"
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  selector:
+    app: flask
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
