@@ -124,3 +124,22 @@ Data Transfer Out from `S3` to the internet is expensive. However, Data Transfer
 - `Route 53 (The Map)`: The browser asks Route 53, "Where is this site?" Route 53 says, "Go to this CloudFront address: d123.cloudfront.net." It also has `Smart Routing`.
 - `CloudFront (The Local Store)`: The browser goes to the CloudFront Edge Location in Bangkok.
 - `The Delivery`: * If the photo is already in the Bangkok cache, CloudFront gives it to the user instantly.
+
+**Step 10: Monitoring and Auditing (CloudWatch & CloudTrail)**
+
+`Amazon CloudWatch` (Performance): It tracks CPU usage, network traffic, RAM, and application errors. You use it to trigger alarms.
+
+`Amazon CloudTrail` (Security): Every time a user, an IAM Role, or a service touches your AWS account (e.g., someone deletes a database), CloudTrail records the IP address, the time, and the exact identity.
+
+*The "Timing"* (CloudWatch Metric alarm)
+`period = 120`: This is the "Time Window" in seconds. Here, CloudWatch looks at 120-second (2-minute) chunks of data.
+
+`evaluation_periods = 2`: This is the "Patience" setting. It says: "The CPU must be high for 2 consecutive windows before you ring the bell."
+
+`The Math: 120 seconds × 2 periods = 240 seconds (4 minutes).`
+- Your server must be working too hard for at least 4 minutes straight before the alarm triggers. This prevents the alarm from ringing if the server is just busy for a quick 30-second task.
+
+*Scenario*
+0-2 min	85%	Above 80? Yes.	OK (Waiting for 2nd period)
+2-4 min	90%	Above 80? Yes.	ALARM! (2 in a row)
+4-6 min	40%	Above 80? No.	OK (Alarm resets)
