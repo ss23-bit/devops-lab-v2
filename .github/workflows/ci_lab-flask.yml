@@ -1,0 +1,34 @@
+name: flask-lab APP
+
+on: 
+  push:
+    branches: ["feature/tech-stack"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout Code, Perform git clone
+          uses: actions/checkout@v6
+
+        - name: Setup Python
+          uses: actions/setup-python@v6
+          with:
+            python-version: '3.12'
+
+        - name: Install Flask
+          run: pip install flask
+
+        - name: Run Syntax Check
+          run: python -m py_compile app.py
+
+        - name: Basic Health Check
+          run: |
+            python app.py &
+            sleep 5
+            curl --fail http://localhost:5000/health
+
+
+
+
