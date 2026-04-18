@@ -10,10 +10,10 @@ jobs:
 
     steps:
         - name: Checkout Code, Perform git clone
-          uses: actions/checkout@v4
+          uses: actions/checkout@v6
 
         - name: Setup Python
-          uses: actions/setup-python@v5
+          uses: actions/setup-python@v6
           with:
             python-version: '3.12'
 
@@ -21,11 +21,11 @@ jobs:
           run: pip install flask
 
         - name: Run Syntax Check
-          run: python -m py_compile app.py
+          run: python -m py_compile lab-flask/app.py
 
         - name: Basic Health Check
           run: |
-            python app.py &
+            python lab-flask/app.py &
             sleep 5
             curl --fail http://localhost:5000/health
 
