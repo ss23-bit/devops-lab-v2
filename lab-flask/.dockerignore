@@ -1,0 +1,29 @@
+# --- Version Control ---
+.git
+.gitignore
+
+# --- Python Junk ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Secrets and Config ---
+.env
+*.local
+auth.json
+secrets.yaml
+
+# --- OS Trash ---
+.DS_Store
+Thumbs.db
+
+# --- Docker Internal ---
+Dockerfile
+.dockerignore

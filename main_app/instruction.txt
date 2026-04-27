@@ -1,0 +1,10 @@
+1.Build the image:                      docker build -t my-coda-app .
+
+2.Push to a Registry (like AWS ECR):    docker push my-coda-app
+
+3.Deploy to Kubernetes:                 kubectl apply -f deployment.yaml
+
+4.Create the Load Balancer:             kubectl apply -f service.yaml
+
+5.Get the URL:                          kubectl get service coda-app-service
+(This will give you a long AWS URL you can paste into your browser!) 

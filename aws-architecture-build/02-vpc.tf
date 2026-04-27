@@ -84,7 +84,7 @@ resource "aws_route_table_association" "public_assoc_b" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-resource "aws_eip" "eip" {
+resource "aws_eip" "eip" { # Elastic IP address for NAT, Or allocate to Subnet for elastic IP
   domain = "vpc"
 }
 
