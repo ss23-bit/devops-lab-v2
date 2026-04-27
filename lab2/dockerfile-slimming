@@ -1,0 +1,23 @@
+# --- STAGE 1: The Builder (The Construction Site) ---
+FROM python:3.9-slim AS builder
+
+WORKDIR /build
+
+# We install dependencies into a specific folder (/install)
+COPY requirements.txt .
+RUN pip install --prefix=/install -r requirements.txt
+
+
+# --- STAGE 2: The Runner (The Finished House) ---
+# We start FRESH with a tiny "Alpine" Linux image (very small!)
+FROM python:3.9-alpine
+
+WORKDIR /app
+
+# We ONLY copy the installed libraries from the builder stage
+COPY --from=builder /install /usr/local
+# We copy your actual app code
+COPY app.py .
+
+# This image is now tiny because it doesn't have the build junk!
+CMD ["python", "app.py"]

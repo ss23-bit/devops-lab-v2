@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coda-app-deployment
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: coda-web
+  template:
+    metadata:
+      labels:
+        app: coda-web
+    spec:
+      containers:
+      - name: coda-app
+        image: your-docker-id/coda-app:v1
+        ports:
+        - containerPort: 8000

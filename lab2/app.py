@@ -6,28 +6,22 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return ({
-        "Hello": 123,
-        "Bye": 321
-    })
+    return jsonify({"Hello!": "Bye!"})
 
 @app.route('/health')
 def health_check():
     cpu_usage = psutil.cpu_percent()
     mem_usage = psutil.virtual_memory().percent
 
-    status = "OK"
+    status = "Healthy"
     status_code = 200
 
-    if cpu_usage > 95:
-        status = "Degraded"
-        status_code = 503
-
-    return jsonify({
+    return jsonify ({
         "status": status,
         "cpu usage": cpu_usage,
         "memory usage": mem_usage
     }), status_code
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == ("__main__"):
+    app.run(host="0.0.0.0", port=5000)
+

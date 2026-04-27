@@ -1,34 +1,36 @@
 name: flask-lab APP
 
-on: 
+on:
   push:
-    branches: ["feature/tech-stack"]
-
+    branches: ["feature/tech-stack", "main"]
+  
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu:latest
 
     steps:
-        - name: Checkout Code, Perform git clone
-          uses: actions/checkout@v6
+      - name: Checkout Code
+        uses: actions/checkout@v6
 
-        - name: Setup Python
-          uses: actions/setup-python@v6
-          with:
-            python-version: '3.12'
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
 
-        - name: Install Flask
-          run: pip install flask
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
 
-        - name: Run Syntax Check
-          run: python -m py_compile lab-flask/app.py
+      - name: Typo Check
+        run: python -m compile_py lab-flask/app.py
 
-        - name: Basic Health Check
-          run: |
-            python lab-flask/app.py &
-            sleep 5
-            curl --fail http://localhost:5000/health
+      - name: Build Docker Image
+        run: docker build -t flask-dev:test ./lab-flask
 
+      - name: Run Docker Container and Test
+        run: docker run -d -p 8080:5000 --name test-container flask-dev:test
 
+      - name: 
 
 

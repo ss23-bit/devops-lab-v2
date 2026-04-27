@@ -14,13 +14,13 @@ resource "aws_lb" "frontend_alb" {
 resource "aws_lb_target_group" "frontend_tg" {
   name     = "frontend-target-group"
   port     = "80"
-  protocol = "HTTP" # Default port/protocol
+  protocol = "HTTP" # Default port/protocol, The SG's ingress(80,443) pass here
   vpc_id   = aws_vpc.main_network.id
 
   health_check {
-    path                = "/"
-    interval            = 30
-    timeout             = 3
+    path                = "/" # Target endpoint
+    interval            = 30  # check again after
+    timeout             = 3   # checking until the time runs out
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
@@ -29,9 +29,10 @@ resource "aws_lb_target_group" "frontend_tg" {
 resource "aws_lb_listener" "frontend_listener" {
   load_balancer_arn = aws_lb.frontend_alb.arn
   port              = 80
-  protocol          = "HTTP" # Listen to the world
+  protocol          = "HTTP" # Listen to the world but after SG
 
-  default_action {
+  # Pointing to Target Group
+  default_action { 
     type             = "forward"
     target_group_arn = aws_lb_target_group.frontend_tg.arn
   }

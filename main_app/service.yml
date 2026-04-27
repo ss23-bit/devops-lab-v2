@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coda-app-service
+spec:
+  type: LoadBalancer  # This triggers the AWS Load Balancer creation
+  selector:
+    app: coda-web
+  ports:
+    - protocol: TCP
+      port: 80        # The internet hits Port 80
+      targetPort: 8000 # The Load Balancer sends it to the App on 8000
