@@ -1,4 +1,0 @@
-error
-sss
-ddd
-error
